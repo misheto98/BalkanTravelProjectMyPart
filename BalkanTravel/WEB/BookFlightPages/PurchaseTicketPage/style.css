@@ -1,0 +1,136 @@
+:root{
+    --transparencyColor:rgba(0,0,0,0.5);
+    --white:rgb(255,255,255);
+    --blueTransparency:rgba(52, 150, 255, 0.5);
+    --ticketBlue:rgb(0,167,254);
+}
+*,*::before,*::after{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    display: flex;
+    font-family: Arial, sans-serif;
+    background-image: url("../Images/BALKAN-Bulgarian-Airlines-2.png");
+    background-repeat: no-repeat;
+    background-size: 100%;
+}
+.FlightInfoContainer{
+    position: fixed;
+    display: block;
+    width: 80%; /* 1330px */
+    height: 65%; /* 600px */
+    background-color:var(--transparencyColor);
+    box-shadow: 0 0 10px var(--transparencyColor);
+    border-radius: 10px;
+    margin: 10% 10%;
+    padding: 30px;
+}
+img{
+    position: relative;
+    width: 100%;
+    height: 90%;
+}
+h1{
+    text-align: center;
+    margin-bottom: 20px;
+    color: var(--white);
+}
+p{
+    color: var(--white);
+    font-weight: bold;
+    text-align: center;
+}
+.FromCity, .ToCity{
+    position: absolute;
+    z-index: 2;
+}
+.FromCity{
+    font-size:120px;
+    margin-left: 10%;
+    top: 45%;
+    z-index: 2;
+}
+.ToCity{
+    font-size:120px;
+    right: 0;
+    margin: 0 30%;
+    top: 45%;
+    z-index: 2;
+}
+.TicketDetailContainer{
+    /* width: 77%; */
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    column-gap: 75px;
+    z-index: 2;
+    top: 80%;
+    margin-left:11%;
+}
+.Passager{
+    color: var(--ticketBlue);
+    font-weight:lighter;
+    font-size: 65px;
+}
+.Depart{
+    color: var(--ticketBlue);
+    font-weight:lighter;
+    font-size: 40px;
+}
+.TicketDetailContainer .Seat{
+    color: var(--ticketBlue);
+    font-weight:lighter;
+    font-size: 65px;
+}
+.TicketDetailContainer .Gate{
+    color: var(--ticketBlue);
+    font-weight:lighter;
+    font-size: 65px;
+}
+.TicketDetailContainer-2{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    top: 20%;
+    right: 4%;
+    z-index: 2;
+    font-size: 45px;
+}
+.Class{
+    font-size: 50px;
+    font-weight: bold;
+}
+.TicketDetailContainer-2 .Cities{
+    display: flex;
+    margin-top: 35px;
+    column-gap: 45px;
+}
+.TicketDetailContainer-2 .Cities .ToCity-2{
+    margin-left: 5%;
+}
+.FlightID{
+    font-weight: lighter;
+    font-size: 35px;
+    margin-top:5px
+}
+.Gate-2{
+    font-weight: lighter;
+    font-size: 35px;
+    margin-top: -5px;
+}
+.Dep{
+    font-weight: lighter;
+    font-size: 35px;
+    margin-top: -2px;
+    margin-right: 15%;
+}
+.Seat-2{
+    font-size: 60px;
+}
+input{
+    font-size:30px;
+}
