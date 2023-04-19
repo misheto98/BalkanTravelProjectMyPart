@@ -1,5 +1,5 @@
 <?php 
-    $servername = "localhost";
+    $servername = "localhost:3307";
     $username = "helper";
     $password = "vmm_123";
     $database = "book_flights";

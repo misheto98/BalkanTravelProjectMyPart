@@ -1,8 +1,8 @@
 <?php
     session_start();
-    $servername = "localhost";
-    $username = "helper";
-    $password = "vmm_123";
+    $servername = "localhost:3307";
+    $username = "root";
+    $password = "";
     $database = "book_flights";
 
     // Create connection
@@ -56,6 +56,7 @@
     <body>
 
         <p style='color:red;font-weight:bold;text-align:center;font-size:20px'><?php echo printFlightNotFound(); ?></p>
+
         <div class="Container_FlightForm">
             
             <h1>Flight Ticket Booking Form</h1>
@@ -109,9 +110,9 @@
                     <button type="submit" name="Show_Flights" class="Show_Flights" alt="Show Flights" onclick="">Show Flights</button>
                     
                 </div>
-
-            </div>
-        </form>
+            </form>
+        </div>
+        
         <!-- Page and Elements' Scripts -->
         <script type="text/javascript" src="Scripts/Script_Slideshow.js"></script>
         <script src="Scripts/Script_AirportMenu.js" type="text/javascript"></script>

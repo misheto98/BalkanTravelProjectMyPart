@@ -1,5 +1,5 @@
 <?php
-  session_start(); // Initialize session data
+session_start(); // Initialize session data
 ?>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
   <div class="container-fluid">
@@ -11,20 +11,36 @@
       <div class="navbar-nav ms-auto mb-2 mb-lg-0">
         <a class="nav-link active" aria-current="page" href="../AboutUsPage/aboutus.php">About us</a>
 
-        <?php if(isset($_SESSION['user'])){ // If there is a session - 'user' variable has value (there is logged in user) ?>
-            <a class="nav-link active" aria-current="page" href="../BookFlightPages/flightSetupPage.php">Buy ticket</a>
-            <a class="nav-link active" aria-current="page" href="#"> Welcome to your page, <?= @$_SESSION['user']['username'] ?></a>
-            <a class="nav-link active" aria-current="page" href="../AccountPage/logout.php">Logout</a>
-        <?php 
-          }else{
+        <?php if (isset($_SESSION['user'])) { // If there is a session - 'user' variable has value (there is logged in user) 
         ?>
-            <a class="nav-link active" aria-current="page" href="../AccountPage/index.php">Buy ticket</a>
-            <a class="nav-link active" aria-current="page" href="../AccountPage/index.php">Login | Sign Up</a>
-        <?php 
-          } 
+          <a class="nav-link active" aria-current="page" href="../BookFlightPages/flightSetupPage.php">Buy ticket</a>
+          <a class="nav-link active" aria-current="page" href="#"> Welcome to your page, <?= @$_SESSION['user']['username'] ?></a>
+          <?php
+
+          if ($_SESSION['user']['email'] == "admin@gmail.com") {
+          ?>
+
+            <a class="nav-link active" aria-current="page" href="../AdminPanel/showFlights.php">Admin Panel</a>
+
+
+          <?php
+          }
+          ?>
+          <a class="nav-link active" aria-current="page" href="../AccountPage/logout.php">Logout</a>
+
+
+
+        <?php
+        } else {
         ?>
+          <a class="nav-link active" aria-current="page" href="../AccountPage/index.php">Buy ticket</a>
+          <a class="nav-link active" aria-current="page" href="../AccountPage/index.php">Login | Sign Up</a>
+        <?php
+        }
+        ?>
+
         <!-- <a class="nav-link active" aria-current="page" href="../AccountPages/SignUpPage/signUpPage.html">Register</a> -->
-       
+
       </div>
     </div>
   </div>

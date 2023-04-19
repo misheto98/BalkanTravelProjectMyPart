@@ -1,7 +1,7 @@
 <?php
-  $servername = "localhost";
-  $username = "helper";
-  $password = "vmm_123";
+  $servername = "localhost:3307";
+  $username = "root";
+  $password = "";
   $database = "book_flights";
   session_start(); // Start session
   try { // Try to connect to the database
