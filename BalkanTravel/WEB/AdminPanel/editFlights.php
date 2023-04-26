@@ -6,7 +6,7 @@ try {
   $id = $_GET["id"];
 
 
-  $sql = "SELECT FlightDate, FlightDepartTime,FlightDuration,FromCityID,ToCityID,FlightClass,FlightPrice FROM flights WHERE id  = $id";
+  $sql = "SELECT FlightDate, FlightDepartTime,FlightDuration,FromCityID,ToCityID,FlightClass,FlightPrice FROM flights WHERE id = $id";
   $result = $conn->query($sql);
   $row = $result->fetch();
 
@@ -20,6 +20,7 @@ try {
 
   if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
+    // Form Data
     $FlightDate = $_POST["FlightDate"];
     $FlightDepartTime = $_POST["FlightDepartTime"];
     $FlightDuration = $_POST["FlightDuration"];
@@ -27,10 +28,6 @@ try {
     $ToCityID = $_POST['ToCityID'];
     $FlightClass = $_POST['FlightClass'];
     $FlightPrice = $_POST['FlightPrice'];
-
-
-
-
 
     $sql = "UPDATE flights SET FlightDate='$FlightDate', FlightDepartTime='  $FlightDepartTime', FlightDuration='$FlightDuration',FromCityID='$FromCityID',ToCityID='$ToCityID',FlightClass='$FlightClass', FlightPrice='$FlightPrice' WHERE id=$id";
     if ($conn->query($sql) == TRUE) {
@@ -49,8 +46,6 @@ try {
 } catch (PDOException $e) {
   echo "Connection failed" . $e->getMessage();
 }
-
-
 
 ?>
 
@@ -91,7 +86,6 @@ try {
         <span></span>
         <label>FlightDuration</label>
       </div>
-
       
       <?php
       $conn = new PDO('mysql:host=localhost:3307;dbname=book_flights', 'root', '');
@@ -121,9 +115,7 @@ try {
         }
         ?>
       </select>
-      <br><br>
-
-      
+      <br><br>      
 
       Choose class of flight: <select name="FlightClass" required>
 
@@ -131,16 +123,16 @@ try {
       <option value="Business">Business</option>
       <option value="First Class">First Class</option>
    
-    </select>
-    <br><br>
+      </select>
+      <br><br>
 
-    <label for="FlightDepartTime">FlightPrice:</label>
-    <input type="number" name="FlightPrice" id="FlightPrice" min="10" required autocomplete="off"><br><br>
-
-
+      <label for="FlightPrice">FlightPrice:</label>
+      <input type="number" name="FlightPrice" id="FlightPrice" min="10" required autocomplete="off"><br><br>
 
       <div class="pass"></div>
       <input type="submit" name="submit" value="Update">
+    </form>
+  </div>
 
 </body>
 

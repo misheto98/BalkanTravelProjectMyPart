@@ -1,7 +1,7 @@
 <?php
   $servername = "localhost:3307";
-  $username = "root";
-  $password = "";
+  $username = "helper";
+  $password = "vmm_123";
   $database = "book_flights";
   session_start(); // Start session
   try { // Try to connect to the database
@@ -42,13 +42,20 @@
     $query->execute([ $email]); // Execute the Query with the given Email on "?" place
     $user = $query->fetch(); // Fetch (Search and Return) for Results
 
-    if(password_verify($password,$user["password"])){ // If the found user's password is the same as the entered login password
-      $_SESSION['user'] = $user; // Save the found User as a Session
-      unset($_SESSION['flightNotFound']); // Delete flightNotFound Variable from Session array
-      header("location: ../HomePage/HomePage.php");
-      exit;
-    } else {
-      echo "<b style='color:red;'>Невалидни потребителски данни</b><br><br>";
+    if($user){ // If user FOUND, then compare passwords
+      if(password_verify($password,$user["password"])){ // If the found user's password is the same as the entered login password
+        $_SESSION['user'] = $user; // Save the found User as a Session
+        unset($_SESSION['flightNotFound']); // Delete flightNotFound Variable from Session array
+        if($_SESSION['user'][1] == "Admin"){ // If the user is admin
+          header("location: ../AdminPanel/showFlights.php"); // Navigate to the Admin Panel Page
+        }
+        else{ // If it's regular user
+          header("location: ../HomePage/HomePage.php"); // Navigate to the Home Page
+        }
+        exit;
+      } else {
+        echo "<b style='color:red;'>Невалидни потребителски данни</b><br><br>";
+      }
     }
   }
 	

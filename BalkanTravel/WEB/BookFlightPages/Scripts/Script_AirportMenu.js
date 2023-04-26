@@ -45,8 +45,8 @@ function returnOldChosenAirport(){
 }
 
 // Function to Clear the Opposite Select Field's Text if it's the same as the value in the active Select Field's Text
-function clearSelectField(Active_Sairport_SelectField_Text,Opposite_Airoprt_SelectField_Text){
-    if(Active_Sairport_SelectField_Text.value == Opposite_Airoprt_SelectField_Text.value){ // Check IF the Current Active Select Field's Text is equal (the same as) the Opposite Select Field's Text
+function clearSelectField(Active_Airport_SelectField_Text,Opposite_Airoprt_SelectField_Text){
+    if(Active_Airport_SelectField_Text.value.toUpperCase() == Opposite_Airoprt_SelectField_Text.value.toUpperCase()){ // Check IF the Current Active Select Field's Text is equal (the same as) the Opposite Select Field's Text
         Opposite_Airoprt_SelectField_Text.value = null; // Clear the Opposite Select Field's Text
     }
 }

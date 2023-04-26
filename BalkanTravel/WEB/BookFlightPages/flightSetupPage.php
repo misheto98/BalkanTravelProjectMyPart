@@ -1,8 +1,8 @@
 <?php
     session_start();
-    $servername = "localhost:3307";
-    $username = "root";
-    $password = "";
+    $servername = "localhost";
+    $username = "helper";
+    $password = "vmm_123";
     $database = "book_flights";
 
     // Create connection
@@ -18,14 +18,15 @@
     $conn->close();
 
     // Function to Create Custom UL Menu for Airport Choice
-    function buildUlMenu($cities,$OptionsList,$Option,$Airport_SelectField_TextID,$OppositeOptionsList,$Opposite_AirportSelectField_TextID)
+    function buildUlMenu( $cities, $OptionsList, $Option, $Airport_SelectField_TextID, $OppositeOptionsList, $Opposite_AirportSelectField_TextID )
     {
         $ulMenu = "<ul id='$OptionsList' class='$OptionsList'>"; // Open UL Menu (HTML Element)
         foreach($cities as $item) {
             $currentCityName = $item["CityName"]; // Store City Name from the current database row
+            $currentCityNameUpper = strtoupper($currentCityName); // City Name Uppercase
             $currentCityAirport = $item["Airport"]; // Store City's Airport from the current database row
             // Define LI Option Element with CLASS value,ID value and ONCLICK Event function call
-            $liOption = "<li class='$Option' name='$currentCityName' id='$currentCityName' onclick='onClick_MenuAirportOption(this.id,$Airport_SelectField_TextID,$OptionsList,$OppositeOptionsList,$Opposite_AirportSelectField_TextID)'>";
+            $liOption = "<li class='$Option' name='$currentCityName' id='$currentCityNameUpper' onclick='onClick_MenuAirportOption(this.id,$Airport_SelectField_TextID,$OptionsList,$OppositeOptionsList,$Opposite_AirportSelectField_TextID)'>";
             // Append the LI Option Element (with the current city item from the database) to the UL Menu Element
             $ulMenu .= $liOption. "<img src='Images/airplane.png' alt='Airpline Image Image'>"."<p>$currentCityName - $currentCityAirport</p>"."</li>";
         }
@@ -36,9 +37,8 @@
     function printFlightNotFound() {
         if(!empty($_SESSION["flightNotFound"])) // If there is flightNotFound Variable (There is no flight with the user's data)
         {
-            echo "<br/>";
-            echo $_SESSION["flightNotFound"];
-            echo "<br/>";
+            $message = $_SESSION["flightNotFound"];
+            echo "<script>alert('$message')</script>";
         } 
     }
 
@@ -55,7 +55,7 @@
     </head>
     <body>
 
-        <p style='color:red;font-weight:bold;text-align:center;font-size:20px'><?php echo printFlightNotFound(); ?></p>
+        <?php echo printFlightNotFound(); ?>
 
         <div class="Container_FlightForm">
             
@@ -107,8 +107,7 @@
                 </div>
 
                 <div class="Container_ShowFlightsButton">
-                    <button type="submit" name="Show_Flights" class="Show_Flights" alt="Show Flights" onclick="">Show Flights</button>
-                    
+                    <button type="submit" name="Show_Flights" class="Show_Flights" alt="Show Flights">Show Flights</button>
                 </div>
             </form>
         </div>
@@ -118,7 +117,3 @@
         <script src="Scripts/Script_AirportMenu.js" type="text/javascript"></script>
     </body>
 </html>
-
-<?php 
-    
-?>

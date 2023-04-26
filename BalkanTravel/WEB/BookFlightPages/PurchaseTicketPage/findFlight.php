@@ -1,5 +1,5 @@
 <?php 
-    $servername = "localhost:3307";
+    $servername = "localhost";
     $username = "helper";
     $password = "vmm_123";
     $database = "book_flights";
@@ -13,7 +13,7 @@
 
     if ( isset( $_POST['Show_Flights'] ) ) { // If Show Flights Button is clicked
         // Flight Setup Data
-        $fromAirport = $_POST['SelectField_FromAirport_Text'];
+        $fromAirport = $_POST['SelectField_FromAirport_Text'];  
         $toAirport = $_POST['SelectField_ToAirport_Text'];
         $departDate = $_POST['date'];
         $flightClass = $_POST['class'];
@@ -35,6 +35,7 @@
             $ticket->set_seat($ticket->generateRandomNumber(30) . $ticket->generateRandomChar());
             $ticket->set_gate($ticket->generateRandomNumber(10));
             $ticket->set_flightID($retrievedData[2]["ID"]);
+            $ticket->set_class($retrievedData[2]["FlightClass"]);
         }
     }
 
@@ -64,12 +65,12 @@
             </div>
             
             <div class="TicketDetailContainer-2" >
-                <p class="Class"><?php echo $retrievedData[3]["Class"]; ?></p>
+                <p class="Class"><?php echo $ticket->get_class(); ?></p>
                 <div class="Cities">
                     <p class="FromCity-2"><?php echo $retrievedData[0]["CityCode"]; ?></p>
                     <p class="ToCity-2"><?php echo $retrievedData[1]["CityCode"]; ?></p> 
                 </div>
-                <p class="FlightID"><?php echo  $retrievedData[2]["ID"]; ?></p>
+                <p class="FlightID"><?php echo  $ticket->get_flightID(); ?></p>
                 <p class="Gate-2"><?php echo $ticket->get_gate(); ?></p>
                 <p class="Dep"><?php echo "DEP. " . date('H:i',strtotime($retrievedData[2]["FlightDepartTime"])); ?></p>
                 <p class="Seat-2"><?php echo $ticket->get_seat(); ?></p>

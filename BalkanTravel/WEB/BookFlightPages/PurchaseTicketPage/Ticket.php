@@ -6,6 +6,7 @@
         public $passager;
         public $seat;
         public $gate;
+        public $class;
 
         function set_connection($connection) {
             $this->connection = $connection;
@@ -37,6 +38,12 @@
         function get_gate() {
             return $this->gate;
         }
+        function set_class($class) {
+            $this->class = $class;
+        }
+        function get_class() {
+            return $this->class;
+        }
 
         // Funtion to retrieve Flight Data from the Database based on User Flight Input/Setup
         function retrieveFlightData($connection,$fromAirport,$toAirport,$departDate,$flightClass){
@@ -48,13 +55,11 @@
             $queryToCity->execute([$toAirport]); // Execute the Query with the given City "?" place
             $resultToCity = $queryToCity->fetch(); // Fetch (Search and Return) for Results
             
-            $queryFlight = $connection->prepare("SELECT * FROM flights WHERE FromCityID = ? AND ToCityID = ? AND FlightDate = ?"); // Query Template / Statement
-            $queryFlight->execute([ $resultFromCity["CityID"], $resultToCity["CityID"], $departDate]); // Execute the Query with the given FromCityID, ToCityID and DepartDate on "?" place
+            $queryFlight = $connection->prepare("SELECT * FROM flights WHERE FromCityID = ? AND ToCityID = ? AND FlightDate = ? AND FlightClass = ?"); // Query Template / Statement
+            $queryFlight->execute([ $resultFromCity["CityID"], $resultToCity["CityID"], $departDate, $flightClass]); // Execute the Query with the given FromCityID, ToCityID, DepartDate and FlightClass on "?" place
             $resultFlight = $queryFlight->fetch(); // Fetch (Search and Return) for Results
 
-            $queryPrice = $connection->prepare("SELECT * FROM prices WHERE FlightID = ? AND Class = ?"); // Query Template / Statement
-            $queryPrice->execute([ $resultFlight["ID"], $flightClass]); // Execute the Query with the given FlightID and FlightClass on "?" place
-            $resultPrice = $queryPrice->fetch(); // Fetch (Search and Return) for Results
+            $resultPrice = $resultFlight["FlightPrice"]; // Fetch (Search and Return) for Results
 
             return [$resultFromCity,$resultToCity,$resultFlight,$resultPrice]; // Return Array with all results
         }

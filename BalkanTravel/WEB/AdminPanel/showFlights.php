@@ -7,6 +7,20 @@ try {
   $PDOstatement = $conn->prepare('SELECT * FROM flights');
   $PDOstatement->execute();
   $result = $PDOstatement->fetchAll(PDO::FETCH_ASSOC);
+
+  $sql = "SELECT * FROM cities";
+  $result1 = $conn->query($sql);
+  $rows = $result1->fetchAll();
+
+  // Funtion to return the CityName from given CityID as parameter
+  function getCity($connection,$cityID){
+    $query = $connection->prepare("SELECT * FROM cities WHERE CityID = ?"); // SQL query pattern
+    $query->execute([ $cityID ]); // Execute the Query with the given CityID on "?" place
+    $city = $query->fetch(); // Fetch (Search and Return) for Results
+    
+    return $city; // Return the City
+  }
+
 } catch (PDOException $e) {
   echo "Connection failed" . $e->getMessage();
 }
@@ -22,87 +36,97 @@ try {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>showUsers</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
   <!-- <link rel="stylesheet" href="editFlightsStyle.css"> -->
 
 </head>
 
+
 <body>
+
+
   <?php include("../header.php"); ?>
   <br><br>
 
-  <form action="addInDb.php?id=<?= @$id ?>" method="post">
+  <form action="addInDb.php" method="post" style="width:25rem;margin:auto;">
+    <fieldset style="border-width: 2px !important;
+      border-style: groove !important;
+      border-color: rgb(192, 192, 192) !important;
+      border-image: initial !important;
+      padding: 10px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      font-size:1.2em;">
 
-  <fieldset style="border-width: 2px !important;
-    border-style: groove !important;
-    border-color: rgb(192, 192, 192) !important;
-    border-image: initial !important;">
-    <legend>Add flights:</legend>
+      <div>
+        <legend>Add flights</legend>
+      </div>
 
-      <label for="FlightDate">FlightDate:</label>
-      <input type="date" class="txt_field" name="FlightDate" id="FlightDate" min="<?php echo date("Y-m-d"); ?>" required autocomplete="off"><br><br>
+      <div>
+        <label for="FlightDate">FlightDate:</label>
+        <input type="date" class="txt_field" name="FlightDate" id="FlightDate" min="<?php echo date("Y-m-d"); ?>" required autocomplete="off"><br><br>
+      </div>
 
-      <label for="FlightDuration">FlightDuration:</label>
-      <input type="time" name="FlightDuration" id="FlightDuration" required autocomplete="off"><br><br>
+      <div>
+        <label for="FlightDuration">FlightDuration:</label>
+        <input type="time" name="FlightDuration" id="FlightDuration" required autocomplete="off"><br><br>
+      </div>
 
-      <label for="FlightDepartTime">FlightDepartTime:</label>
-      <input type="time" name="FlightDepartTime" id="FlightDepartTime" required autocomplete="off"><br><br>
+      <div>
+        <label for="FlightDepartTime">FlightDepartTime:</label>
+        <input type="time" name="FlightDepartTime" id="FlightDepartTime" required autocomplete="off"><br><br>
+      </div>
 
-      <?php
-      $sql = "SELECT * FROM cities";
-      $result1 = $conn->query($sql);
-      $rows = $result1->fetchAll();
+      <div>
+        From City: <select name="FromCityID" required>
+          <?php
+          foreach ($rows as $row) {
+          ?>
+            <option value="<?= $row['CityID'] ?>"><?= $row['CityName'] ?></option>
+          <?php
+          }
+          ?>
+        </select>
+        <br><Br>
+      </div>
 
+      <div>
+        To City: <select name="ToCityID" required>
+          <?php
+          foreach ($rows as $row) {
+          ?>
+            <option value="<?= $row['CityID'] ?>"><?= $row['CityName'] ?></option>
+          <?php
+          }
+          ?>
+        </select>
+        <br><br>
+      </div>
 
-      ?>
+      <div>
+        Choose class of flight: <select name="FlightClass" required>
+          <option value="Economy">Ecomony</option>
+          <option value="Business">Business</option>
+          <option value="First Class">First Class</option>
 
-      From City: <select name="FromCityID" required>
-        <?php
-        foreach ($rows as $row) {
-        ?>
-          <option value="<?= $row['CityID'] ?>"><?= $row['CityName'] ?></option>
-        <?php
-        }
-        ?>
-      </select>
-      <br><Br>
+        </select>
+        <br><br>
+      </div>
 
-      To City: <select name="ToCityID" required>
-        <?php
-        foreach ($rows as $row) {
-        ?>
-          <option value="<?= $row['CityID'] ?>"><?= $row['CityName'] ?></option>
-        <?php
-        }
-        ?>
-      </select>
-      <br><br>
+      <div>
+        <label for="FlightPrice">FlightPrice:</label>
+        <input type="number" name="FlightPrice" id="FlightPrice" min="10" required autocomplete="off"><br><br>
+      </div>
 
-
-      Choose class of flight: <select name="FlightClass" required>
-
-        <option value="Economy">Ecomony</option>
-        <option value="Business">Business</option>
-        <option value="First Class">First Class</option>
-
-      </select>
-      <br><br>
-
-      <label for="FlightDepartTime">FlightPrice:</label>
-      <input type="number" name="FlightPrice" id="FlightPrice" min="10" required autocomplete="off"><br><br>
-
-      <input type="submit" name="submit" class="btn btn-success"><br><br>
-
+      <div style="width:100%;">
+        <input type="submit" name="submit" class="btn btn-success" style="width:100%;"><br>
+      </div>
     </fieldset>
   </form>
   <br>
 
-
-
-
-  <table class="table table-warning table-striped table-responsive">
+  <div class="table-responsive">
+  <table class="table table-warning table-striped">
     <!-- table-success  -->
     <thead>
       <tr>
@@ -110,8 +134,8 @@ try {
         <th scope="col">Flight Date</th>
         <th scope="col">Flight Depart Time</th>
         <th scope="col">Flight Duration</th>
-        <th scope="col">From City</th>
-        <th scope="col">To City</th>
+        <th scope="col">Flight Depart Airport</th>
+        <th scope="col">Flight End Airport</th>
         <th scope="col">Flight Class</th>
         <th scope="col">Flight Price</th>
         <th scope="col">Delete</th>
@@ -121,23 +145,29 @@ try {
 
     <?php
 
-    for ($i = 0; $i < count($result); $i++) {
-      echo "<tr>";
-      echo   "<td>" . $result[$i]['ID'] . "</td>";
-      echo   "<td>" . $result[$i]['FlightDate'] . "</td>";
-      echo   "<td>" . $result[$i]['FlightDepartTime'] . "</td>";
-      echo   "<td>" . $result[$i]['FlightDuration'] . "</td>";
-      echo   "<td>" . $result[$i]['FromCityID'] . "</td>";
-      echo   "<td>" . $result[$i]['ToCityID'] . "</td>";
-      echo   "<td>" . $result[$i]['FlightClass'] . "</td>";
-      echo   "<td>" . $result[$i]['FlightPrice'] . "</td>";
-      echo   '<td><a class="btn btn-danger" href="deleteFlights.php?id=' . $result[$i]['ID'] . '">Delete</a></td>';
-      echo   '<td><a class="btn btn-warning" href="editFlights.php?id=' . $result[$i]['ID'] . '">Edit</a></td>';
-      echo "</tr>";
-    }
+      for ($i = 0; $i < count($result); $i++) {
+        echo "<tr>";
+        echo   "<td>" . $result[$i]['ID'] . "</td>";
+        echo   "<td>" . $result[$i]['FlightDate'] . "</td>";
+        echo   "<td>" . $result[$i]['FlightDepartTime'] . "</td>";
+        echo   "<td>" . $result[$i]['FlightDuration'] . "</td>";
+        echo   "<td>" . getCity($conn,$result[$i]['FromCityID'])["CityName"] . "</td>";
+        echo   "<td>" . getCity($conn,$result[$i]['ToCityID'])["CityName"] . "</td>";
+        echo   "<td>" . $result[$i]['FlightClass'] . "</td>";
+        echo   "<td>" . $result[$i]['FlightPrice'] . "</td>";
+        echo   '<td><a class="btn btn-danger" href="deleteFlights.php?id=' . $result[$i]['ID'] . '">Delete</a></td>';
+        echo   '<td><a class="btn btn-warning" href="editFlights.php?id=' . $result[$i]['ID'] . '">Edit</a></td>';
+        echo "</tr>";
+      }
     ?>
 
   </table>
+    </div>
+  
+    
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
 </body>
 
 </html>
