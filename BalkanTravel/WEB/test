@@ -1,0 +1,99 @@
+<?php
+session_start();
+$servername = "localhost:3307";
+$usernameOfDb = "root";
+$passwordOfDb = "";
+$database = "book_flights";
+
+try {
+  $conn = new PDO("mysql:host=$servername;dbname=$database", $usernameOfDb, $passwordOfDb);
+  $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+  echo "Connected successfully";
+
+  @$email = $_GET["email"];
+
+  if (isset($_SESSION['user'])) {
+
+    $sql = "SELECT username, email, password FROM users WHERE email =$email ";
+    $result = $conn->query($sql);
+
+
+    // $sql = "SELECT username, email,password FROM users WHERE id = $id";
+    // $result = $conn->query($sql);
+    // $row = $result->fetch();
+
+    // $username = $row['username'];
+    // $email = $row['email'];
+    // $password = $row['password'];
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+
+      $username = $_POST['username'];
+      $email = $_POST['email'];
+      $password = $_POST['password'];
+
+
+
+      $sql = "UPDATE users SET username='$username', email='$email', password='$password'";
+      if ($conn->query($sql) == TRUE) {
+
+        header('Location: editProfile.php');
+        exit();
+
+      } else {
+        echo "Error updating record: " . $conn->$error;
+      }
+    }
+  }
+
+
+  $conn = null;
+} catch (PDOException $e) {
+  echo "Connection failed" . $e->getMessage();
+}
+
+
+$hash_password = password_hash($password,PASSWORD_BCRYPT);
+
+?>
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>editProfile</title>
+  <link rel="stylesheet" href="editProfileStyle.css">
+</head>
+
+<body>
+  <div class="center">
+    <h1>Update your profile</h1>
+    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) . "?email=$email"; ?>" method="post">
+      <div class="txt_field">
+        <input type="text" name="username" required value="<?php echo $username; ?>">
+        <span></span>
+        <label>Username</label>
+      </div>
+
+      <div class="txt_field">
+        <input type="text" name="email" required value="<?php echo $email; ?>">
+        <span></span>
+        <label>Email</label>
+      </div>
+
+      <div class="txt_field">
+        <input type="text" name="password" required value="<?php echo $password; ?>">
+        <span></span>
+        <label>Password</label>
+      </div>
+
+</body>
+
+</html>

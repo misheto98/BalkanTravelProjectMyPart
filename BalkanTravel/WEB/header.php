@@ -1,6 +1,19 @@
 <?php
 session_start(); // Initialize session data
 ?>
+
+<?php
+$mysqli = new mysqli("localhost:3307","root","","book_flights");
+
+// Check connection
+if ($mysqli -> connect_errno) {
+  echo "Failed to connect to MySQL: " . $mysqli -> connect_error;
+  exit();
+}
+?>
+
+
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container-fluid">
     <a class="navbar-brand" href="../HomePage/HomePage.php"><img src="../Images/Balkan-airlines-logo.png" alt=""></a>
@@ -22,6 +35,7 @@ session_start(); // Initialize session data
             <a class="nav-link active" aria-current="page" href="../AdminPanel/showFlights.php">Admin Panel</a>
             <a class="nav-link active"  href="../AccountPage/logout.php">Logout</a>
           <?php  }  else if ($_SESSION['user']['email'] != "admin@gmail.com") { ?>
+            
 
           <div class="dropdown">
             <a class="dropdown-toggle nav-link" href="#" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
@@ -30,7 +44,8 @@ session_start(); // Initialize session data
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
               <li class="dropdown-item">Welcome to your page, <?= @$_SESSION['user']['username'] ?></li>
               <li><a class="dropdown-item" href="#">Check your flights</a></li>
-              <li><a class="dropdown-item" href="#">Edit your profile</a></li>
+            
+              <li><button type="button" class="btn btn-link" value=<?php ($_SESSION['user'] ['email']) ?> name="button"><a href="../AccountPage/editProfile.php" >Edit your profile </a></button></li>
               <li><a class="dropdown-item" aria-current="page" href="../AccountPage/logout.php">Logout</a></li>
             </ul>
 
